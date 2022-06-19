@@ -63,7 +63,19 @@ def get():
             e_name.insert(0,row[1])
             e_phone.insert(0,row[2])
         cursor.close()
-
+def display():
+    id=e_id.get()
+    if id=='':
+        messagebox.showinfo("Get Status","Please fill all the fields")
+    else:
+        conn=mysql.connect(host='localhost',user='root',passwd='',database='python')
+        cursor=conn.cursor()
+        cursor.execute("select * from student where id='%s'"%id)
+        rows=cursor.fetchall()
+        for row in rows:
+            labe=Label(root,text=row[1]+"\t"+row[2])
+            labe.place(x=20,y=200)
+        cursor.close()
 root = Tk()
 root.title('Database')
 root.geometry('300x300')
@@ -94,6 +106,8 @@ delete = Button(root,text='Delete',command=delete)
 delete.place(x=170,y=120)
 get = Button(root,text='Get',command=get)
 get.place(x=250,y=120)
+lbl = Button(root,text='Display',command=display)
+lbl.place(x=20,y=150)
 root.mainloop()
 
 
